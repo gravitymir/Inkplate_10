@@ -1,9 +1,9 @@
-# Cleere Auto Services — Inkplate 10 Clock
+# Inkplate 10 Clock
 
 A minimal **NTP-less wall clock** for the [Soldered Inkplate 10](https://soldered.com/products/inkplate-10)
 (9.7", 1200×825, 3-bit grayscale e-paper).
 
-It shows the time and date during working hours, and the **Cleere Auto Services** logo
+It shows the time and date during working hours, and a **custom logo** of your choice
 overnight. There is no hard-coded WiFi: on power-on the device opens a short-lived
 access point with a web page where you set the working hours and synchronize the clock
 straight from your phone/laptop browser.
@@ -20,9 +20,10 @@ straight from your phone/laptop browser.
 - **WiFi setup portal on power-on** (access point + web page) for **~2 minutes**, then
   WiFi is turned off completely to save battery.
 - **Browser time sync** — no NTP/internet needed; the RTC is set from the browser clock.
-- **Sleep logo** — outside working hours the Cleere Auto Services logo is shown and the
-  device deep-sleeps. The e-paper keeps the image on screen at **zero power**.
+- **Sleep logo** — outside working hours a custom logo is shown and the device
+  deep-sleeps. The e-paper keeps the image on screen at **zero power**.
 - **Branded setup screen** — the logo with the setup instructions laid over it.
+- **Swappable logo** — drop in any image; see *Regenerating the logo* below.
 
 ---
 
