@@ -8,6 +8,8 @@ overnight. There is no hard-coded WiFi: on power-on the device opens a short-liv
 access point with a web page where you set the working hours and synchronize the clock
 straight from your phone/laptop browser.
 
+![Inkplate 10 running the clock](docs/clock.jpg)
+
 ---
 
 ## Features
