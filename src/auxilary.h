@@ -56,7 +56,7 @@ void showTime()
     char hh[3];
     char mm[3];
     sprintf(yy, "%d", display.rtcGetYear());
-    sprintf(MM, "%02d", display.rtcGetMonth() + 1);
+    sprintf(MM, "%02d", display.rtcGetMonth());
     sprintf(dd, "%02d", display.rtcGetDay());
 
     // sprintf(yy, "%d", 8888);

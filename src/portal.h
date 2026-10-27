@@ -58,7 +58,7 @@ button{margin-top:18px;padding:12px;font-size:16px;width:100%;border:0;border-ra
 <script>
 function syncTime(){
  var d=new Date();
- var q='/settime?yr='+d.getFullYear()+'&mo='+d.getMonth()+'&da='+d.getDate()
+ var q='/settime?yr='+d.getFullYear()+'&mo='+(d.getMonth()+1)+'&da='+d.getDate()
    +'&wd='+d.getDay()+'&h='+d.getHours()+'&m='+d.getMinutes()+'&s='+d.getSeconds();
  fetch(q).then(function(r){return r.text();}).then(function(t){
    document.getElementById('msg').innerHTML='<span class="ok">'+t+'</span>';
@@ -90,7 +90,7 @@ void handleSave()
 void handleSetTime()
 {
     int yr = server.arg("yr").toInt();
-    int mo = server.arg("mo").toInt(); // 0-based, matches RTC convention used here
+    int mo = server.arg("mo").toInt(); // 1-12: the PCF85063 calendar needs real months for day rollover
     int da = server.arg("da").toInt();
     int wd = server.arg("wd").toInt(); // 0 = Sunday
     int hh = server.arg("h").toInt();
@@ -101,7 +101,7 @@ void handleSetTime()
     display.rtcSetDate(wd, da, mo, yr);
 
     char buf[48];
-    sprintf(buf, "Time set: %04d-%02d-%02d %02d:%02d:%02d", yr, mo + 1, da, hh, mm, ss);
+    sprintf(buf, "Time set: %04d-%02d-%02d %02d:%02d:%02d", yr, mo, da, hh, mm, ss);
     Serial.println(buf);
     server.send(200, "text/plain", buf);
 }
