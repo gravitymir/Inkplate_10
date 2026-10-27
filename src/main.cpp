@@ -3,7 +3,7 @@
 #include "logo.h"
 #include "portal.h"
 
-// Show the Cleere Auto Services logo (stays on screen during deep sleep).
+// Show the SHED 31 logo (stays on screen during deep sleep).
 void showSleepLogo()
 {
     display.clearDisplay();
