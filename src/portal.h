@@ -163,6 +163,7 @@ void runConfigPortal()
     while (millis() - start < PORTAL_DURATION_MS)
     {
         server.handleClient();
+        esp_task_wdt_reset(); // keep the watchdog fed during the 2-min portal
         delay(5);
     }
 

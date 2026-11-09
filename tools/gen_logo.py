@@ -19,7 +19,9 @@ img = Image.open(SRC).convert("RGB")
 img = img.convert("L")                 # luminance grayscale
 img = ImageOps.autocontrast(img, cutoff=(1, 0))
 img = img.point(lambda v: 255 if v >= 250 else v)  # autocontrast leaves white at 254 -> dither speckle
-img = img.resize((W, H), Image.LANCZOS)
+# Fit into the 1200x600 frame preserving aspect ratio, padding with white
+# (white = bare e-paper), so the logo is never stretched.
+img = ImageOps.pad(img, (W, H), method=Image.LANCZOS, color=255)
 
 px = list(img.getdata())               # 0..255, row-major
 
