@@ -6,22 +6,30 @@ Output format matches Inkplate::drawBitmap3Bit():
   - stored nibble = level<<1, where level in 0..7 (0=black, 7=white)
 """
 import sys
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageChops
 
 import os
 _HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(_HERE, "logo_src.jpg")
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(_HERE, "..", "src", "logo.h")
-W, H = 1200, 600  # full panel width, logo is 2:1
+W, H = 1200, 825  # full panel — the logo fills the whole screen
 
 img = Image.open(SRC).convert("RGB")
 # White background flatten (in case of alpha already handled by RGB)
 img = img.convert("L")                 # luminance grayscale
 img = ImageOps.autocontrast(img, cutoff=(1, 0))
 img = img.point(lambda v: 255 if v >= 250 else v)  # autocontrast leaves white at 254 -> dither speckle
-# Fit into the 1200x600 frame preserving aspect ratio, padding with white
-# (white = bare e-paper), so the logo is never stretched.
-img = ImageOps.pad(img, (W, H), method=Image.LANCZOS, color=255)
+
+# Trim the source's own white border so the artwork itself reaches the panel
+# edges (bounding box of all non-white pixels).
+bbox = ImageChops.difference(img, Image.new("L", img.size, 255)).getbbox()
+if bbox:
+    img = img.crop(bbox)
+
+# Fill the whole 1200x825 panel: scale to cover, center-crop the small overflow
+# (a few px of outer spray). The art reaches all four edges, no white border,
+# aspect preserved (never stretched).
+img = ImageOps.fit(img, (W, H), method=Image.LANCZOS, centering=(0.5, 0.5))
 
 px = list(img.getdata())               # 0..255, row-major
 
