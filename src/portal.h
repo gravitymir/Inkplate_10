@@ -106,7 +106,9 @@ void handleSetTime()
     server.send(200, "text/plain", buf);
 }
 
-// Center a default-font string horizontally at vertical position y.
+// Center a default-font string horizontally at y, drawn as black text on a
+// white halo (the text redrawn in white at every nearby offset) so it stays
+// readable over any part of the logo.
 void drawCenteredText(const String &s, int y, int size)
 {
     int16_t bx, by;
@@ -116,6 +118,21 @@ void drawCenteredText(const String &s, int y, int size)
     int x = (display.width() - (int)bw) / 2;
     if (x < 0)
         x = 0;
+
+    // White halo first: redraw the text in white at every offset within r px.
+    int r = (size >= 5) ? 3 : 2;
+    display.setTextColor(7);
+    for (int dx = -r; dx <= r; dx++)
+        for (int dy = -r; dy <= r; dy++)
+        {
+            if (dx == 0 && dy == 0)
+                continue;
+            display.setCursor(x + dx, y + dy);
+            display.print(s);
+        }
+
+    // Black text on top of the halo.
+    display.setTextColor(0);
     display.setCursor(x, y);
     display.print(s);
 }
